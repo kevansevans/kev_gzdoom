@@ -787,10 +787,10 @@ int EventManager::WorldLineDamaged(line_t* line, AActor* source, int damage, FNa
 	return damage;
 }
 
-void EventManager::WorldSecretFound()
+void EventManager::WorldSecretFound(AActor* actor)
 {
 	for (DStaticEventHandler* handler = FirstEventHandler; handler; handler = handler->next)
-		handler->WorldSecretFound();
+		handler->WorldSecretFound(actor);
 }
 
 void EventManager::PlayerEntered(int num, bool fromhub)
@@ -1896,14 +1896,16 @@ void DStaticEventHandler::WorldTick()
 	}
 }
 
-void DStaticEventHandler::WorldSecretFound()
+void DStaticEventHandler::WorldSecretFound(AActor* actor)
 {
 	IFVIRTUAL(DStaticEventHandler, WorldSecretFound)
 	{
 		// don't create excessive DObjects if not going to be processed anyway
 		if (isEmpty(func)) return;
-		VMValue params[1] = { (DStaticEventHandler*)this };
-		VMCall(func, params, 1, nullptr, 0);
+		FWorldEvent e = owner->SetupWorldEvent();
+		e.Thing = actor;
+		VMValue params[2] = { (DStaticEventHandler*)this, &e };
+		VMCall(func, params, 2, nullptr, 0);
 	}
 }
 

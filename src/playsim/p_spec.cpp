@@ -634,8 +634,8 @@ void P_GiveSecret(FLevelLocals *Level, AActor *actor, bool printmessage, bool pl
 		}
 	}
 	Level->found_secrets++;
-	Level->localEventManager->WorldSecretFound();
-	staticEventManager.WorldSecretFound();
+	Level->localEventManager->WorldSecretFound(actor);
+	staticEventManager.WorldSecretFound(actor);
 }
 
 DEFINE_ACTION_FUNCTION(FLevelLocals, GiveSecret)

@@ -313,7 +313,7 @@ public:
 	void WorldThingDestroyed(AActor* actor);
 	void WorldLinePreActivated(line_t* line, AActor* actor, int activationType, bool* shouldactivate);
 	void WorldLineActivated(line_t* line, AActor* actor, int activationType);
-	void WorldSecretFound();
+	void WorldSecretFound(AActor* actor);
 	int WorldSectorDamaged(sector_t* sector, AActor* source, int damage, FName damagetype, int part, DVector3 position, bool isradius);
 	int WorldLineDamaged(line_t* line, AActor* source, int damage, FName damagetype, int side, DVector3 position, bool isradius);
 	void WorldLightning();
@@ -489,7 +489,7 @@ struct EventManager
 	// this executes on every tick, before everything, only when in valid level and not paused
 	void WorldTick();
 	//Called when a secret is discovered
-	void WorldSecretFound();
+	void WorldSecretFound(AActor* actor);
 	// this executes on every tick on UI side, always
 	void UiTick();
 	// this executes on every tick on UI side, always AND immediately after everything else
