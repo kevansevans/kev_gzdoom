@@ -161,6 +161,7 @@ class StaticEventHandler : Object native play version("2.4")
     virtual void WorldLineDamaged(WorldEvent e) {}
     virtual void WorldLightning(WorldEvent e) {} // for the sake of completeness.
     virtual void WorldTick() {}
+    virtual void WorldSecretFound() {}
 
     //
     //virtual ui void RenderFrame(RenderEvent e) {}

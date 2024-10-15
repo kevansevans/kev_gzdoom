@@ -787,6 +787,12 @@ int EventManager::WorldLineDamaged(line_t* line, AActor* source, int damage, FNa
 	return damage;
 }
 
+void EventManager::WorldSecretFound()
+{
+	for (DStaticEventHandler* handler = FirstEventHandler; handler; handler = handler->next)
+		handler->WorldSecretFound();
+}
+
 void EventManager::PlayerEntered(int num, bool fromhub)
 {
 	// this event can happen during savegamerestore. make sure that local handlers don't receive it.
@@ -1882,6 +1888,17 @@ void DStaticEventHandler::WorldLightning()
 void DStaticEventHandler::WorldTick()
 {
 	IFVIRTUAL(DStaticEventHandler, WorldTick)
+	{
+		// don't create excessive DObjects if not going to be processed anyway
+		if (isEmpty(func)) return;
+		VMValue params[1] = { (DStaticEventHandler*)this };
+		VMCall(func, params, 1, nullptr, 0);
+	}
+}
+
+void DStaticEventHandler::WorldSecretFound()
+{
+	IFVIRTUAL(DStaticEventHandler, WorldSecretFound)
 	{
 		// don't create excessive DObjects if not going to be processed anyway
 		if (isEmpty(func)) return;
